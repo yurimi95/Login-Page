@@ -1,25 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const Wrapper = styled.div`
+  box-sizing: border-box;
   width: 65%;
-  border-radius: 16px 0px 0px 16px;
-  background-color: white;
+  position: relative;
 `;
 
 const LoginWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  padding: 20px;
   width: 450px;
-  height: 450px;
-  margin: 0 auto;
-  margin-top: 150px;
+  height: 315px;
+  box-sizing: border-box;
 `;
 
-const LoginHeader = styled.h1`
+const LoginHeader = styled.p`
   width: 100%;
+  margin-bottom: 10px;
+  font-size: 26px;
+  font-weight: 700;
   color: #b8505e;
   text-align: center;
 `;
-const LoginContent = styled.div`
+const LoginContent = styled.form`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -29,62 +39,109 @@ const LoginContent = styled.div`
 
 const LoginTitle = styled.p`
   width: 100%;
+  font-size: 12px;
+  font-weight: 400;
   color: #666;
   text-align: center;
-  font-size: 14px;
-  margin-top: 30px;
+  margin: 20px 0px;
 `;
 
-const InputId = styled.input`
+const InputWithLabel = styled.input`
+  width: 358px;
   margin-top: 10px;
-  width: 385px;
   line-height: 40px;
-  background-color: #faffbd;
-  border-radius: 3px;
+  background-color: #f2f2f2;
   border: none;
-`;
-
-const InputPw = styled.input`
-  margin-top: 10px;
-  width: 385px;
-  line-height: 40px;
-  background-color: #faffbd;
-  border-radius: 3px;
-  border: none;
+  font-size: 12px;
 `;
 
 const ForgotTitle = styled.p`
-  margin-top: 30px;
+  margin: 30px 0px;
   width: 100%;
   color: #b8505e;
   text-align: center;
-  font-size: 14px;
-  font-weight: bold;
+  font-size: 12px;
+  font-weight: 400;
+  cursor: pointer;
 `;
 
 const LoginBtn = styled.button`
-  width: 200px;
-  height: 55px;
-  margin-top: 20px;
-  border-radius: 30px;
+  width: 150px;
+  height: 40px;
+  border-radius: 20px;
   border: none;
   color: white;
   background-color: #b8505e;
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 12px;
+  cursor: pointer;
 `;
 
+const melon = () => {
+  alert("아직 구현하지 않았습니다.");
+};
+
 const LoginBox = () => {
+  const [userId, setUserId] = useState("");
+  const [userPw, setUserPw] = useState("");
+
+  const isLoggedID = (e) => {
+    setUserId(e.target.value);
+  };
+
+  const isLoggedPW = (e) => {
+    setUserPw(e.target.value);
+  };
+
+  const loginSubmit = (e) => {
+    e.preventDefault();
+
+    const userIf = `{"user_id":"${userId}","password":"${userPw}"}`;
+
+    const getUserId = Object.values(localStorage).filter(
+      (user) => JSON.parse(user).user_id === userId
+    );
+
+    const isLoggedOn = () => {
+      if (getUserId.length !== 0) {
+        getUserId.toString() === userIf
+          ? alert("로그인 성공")
+          : alert("비밀번호가 틀렸습니다");
+      } else {
+        return alert("아이디를 확인하세요");
+      }
+    };
+
+    if (!userId || !userPw) {
+      return alert("아이디/비밀번호를 입력하세요");
+    } else {
+      return isLoggedOn();
+    }
+  };
+
   return (
     <Wrapper>
       <LoginWrapper>
         <LoginHeader>인아이디어 컨텐츠몰 로그인</LoginHeader>
-        <LoginContent>
+        <LoginContent onSubmit={loginSubmit}>
           <LoginTitle>아이디/비밀번호를 입력하세요.</LoginTitle>
-          <InputId placeholder="아이디"></InputId>
-          <InputPw placeholder="비밀번호"></InputPw>
-          <ForgotTitle>비밀번호를 잊으셨나요?</ForgotTitle>
-          <LoginBtn>로그인</LoginBtn>
+          <InputWithLabel
+            type="text"
+            name="user_id"
+            placeholder="아이디"
+            onChange={isLoggedID}
+            value={userId}
+          ></InputWithLabel>
+          <InputWithLabel
+            type="password"
+            name="password"
+            placeholder="비밀번호"
+            onChange={isLoggedPW}
+            value={userPw}
+          ></InputWithLabel>
+          <ForgotTitle onClick={melon}>비밀번호를 잊으셨나요?</ForgotTitle>
+          <Link to="greeting">
+            <LoginBtn type="submit">로그인</LoginBtn>
+          </Link>
         </LoginContent>
       </LoginWrapper>
     </Wrapper>

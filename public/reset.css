@@ -132,6 +132,8 @@ table {
 html,
 body {
   min-height: 100%;
+  padding: : 0px;
+  height: 100%;
 }
 * {
   box-sizing: border-box;

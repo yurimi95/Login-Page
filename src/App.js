@@ -1,17 +1,17 @@
-import React from "react";
-import { Wrapper, Container } from "./AppWrapper";
-import LoginBox from "./component/LoginBox";
-import SignUpbox from "./component/SignUpbox";
+import React, { Component } from "react";
+import { Route } from "react-router-dom";
+import { Home, Register, Greeting } from "pages";
 
-function App() {
-  return (
-    <Wrapper>
-      <Container>
-        <LoginBox />
-        <SignUpbox />
-      </Container>
-    </Wrapper>
-  );
+class App extends Component {
+  render() {
+    return (
+      <div>
+        <Route exact path="/" component={Home} />
+        <Route path="/register" component={Register} />
+        <Route path="/greeting" component={Greeting} />
+      </div>
+    );
+  }
 }
 
 export default App;
